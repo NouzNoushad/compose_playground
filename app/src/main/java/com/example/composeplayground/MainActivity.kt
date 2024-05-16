@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composeplayground.components.AppNavigationScreen
 import com.example.composeplayground.components.DesignScreen
 import com.example.composeplayground.components.NormalScreen
 import com.example.composeplayground.ui.theme.ComposePlaygroundTheme
@@ -25,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    DesignScreen()
-                    NormalScreen()
+//                    NormalScreen()
+                    AppNavigationScreen()
                 }
             }
         }
