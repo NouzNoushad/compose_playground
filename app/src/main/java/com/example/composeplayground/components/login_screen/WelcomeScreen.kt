@@ -2,7 +2,10 @@ package com.example.composeplayground.components.login_screen
 
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.view.RoundedCorner
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +13,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -18,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
@@ -53,6 +62,7 @@ fun WelcomeScreen(){
 
 @Composable
 fun BottomSection() {
+    val lists = listOf("A", "B", "C")
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -76,7 +86,28 @@ fun BottomSection() {
             )
         )
         Spacer(modifier = Modifier.height(40.dp))
-
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(0.4f),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            items(lists.size) {index -> Box(modifier = Modifier
+                .height(30.dp)
+                .width(30.dp)
+                .border(
+                    2.dp,
+                    Color(218, 219, 219),
+                    shape = RoundedCornerShape(100.dp)
+                ),
+                contentAlignment = Alignment.Center){
+                Text(text = lists[index],
+                    style = TextStyle(
+                        color =  Color(218,219,219),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+                )
+            }}
+        }
     }
 }
 
