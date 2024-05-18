@@ -40,11 +40,43 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import java.util.Locale
 
+enum class Screens {
+    Welcome,
+    Register,
+    Login
+}
+sealed class NavigationItem(val route: String){
+    data object WelcomeScreen: NavigationItem(Screens.Welcome.name)
+    data object RegisterScreen: NavigationItem(Screens.Register.name)
+    data object LoginScreen: NavigationItem(Screens.Login.name)
+}
 @Preview(showBackground = true)
 @Composable
-fun WelcomeScreen(){
+fun AuthRoutes(){
+    val navController = rememberNavController()
+    NavHost(navController = navController,
+        startDestination = NavigationItem.WelcomeScreen.route) {
+        composable(NavigationItem.WelcomeScreen.route){
+            WelcomeScreen(){
+                navController.navigate(it)
+            }
+        }
+        composable(NavigationItem.RegisterScreen.route){
+            RegisterScreen()
+        }
+        composable(NavigationItem.LoginScreen.route){
+            LoginScreen()
+        }
+    }
+}
+
+@Composable
+fun WelcomeScreen(navigateTo: (route: String) -> Unit){
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Black)){
@@ -55,13 +87,13 @@ fun WelcomeScreen(){
             .fillMaxWidth()
             .background(Color.Transparent),
             contentAlignment = Alignment.Center) {
-                BottomSection()
+                BottomSection(navigateTo)
             }
     }
 }
 
 @Composable
-fun BottomSection() {
+fun BottomSection(navigateTo: (route: String) -> Unit) {
     val lists = listOf("A", "B", "C")
     Column (
         horizontalAlignment = Alignment.CenterHorizontally
@@ -69,13 +101,17 @@ fun BottomSection() {
         BuildButton(
             title = "Login in",
             color = Color(62,62,62),
-            onClick = {}
+            onClick = {
+                navigateTo(NavigationItem.LoginScreen.route)
+            }
         )
         Spacer(modifier = Modifier.height(10.dp))
         BuildButton(
             title = "Create Account",
             color = Color(167, 105, 106),
-            onClick = {}
+            onClick = {
+                navigateTo(NavigationItem.RegisterScreen.route)
+            }
         )
         Spacer(modifier = Modifier.height(40.dp))
         Text(text = "or login using social media".uppercase(),

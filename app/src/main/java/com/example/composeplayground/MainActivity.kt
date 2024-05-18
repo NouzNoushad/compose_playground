@@ -13,6 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.composeplayground.components.AppNavigationScreen
 import com.example.composeplayground.components.DesignScreen
 import com.example.composeplayground.components.NormalScreen
+import com.example.composeplayground.components.login_screen.AuthRoutes
 import com.example.composeplayground.components.login_screen.WelcomeScreen
 import com.example.composeplayground.ui.theme.ComposePlaygroundTheme
 
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
 //                    DesignScreen()
 //                    NormalScreen()
 //                    AppNavigationScreen()
-                    WelcomeScreen()
+                    AuthRoutes()
                 }
             }
         }
