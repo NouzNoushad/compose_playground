@@ -1,5 +1,6 @@
 package com.example.composeplayground.components.login_screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -32,11 +34,52 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
 @Composable
 fun LoginScreen(){
-    var userName by remember {
-        mutableStateOf("")
-    }
-    var password by remember {
-        mutableStateOf("")
+    val context = LocalContext.current
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
+    var emailErrorText by remember { mutableStateOf("") }
+    var passwordErrorText by remember { mutableStateOf("") }
+
+    var isEmailError by remember { mutableStateOf(false) }
+    var isPasswordError by remember { mutableStateOf(false) }
+
+    val emailPattern = Regex("[a-zA-Z0–9._-]+@[a-z]+\\.+[a-z]+")
+    val passwordPattern = Regex("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$")
+
+    val checkFormErrors = {
+        if(email.isEmpty()){
+            isEmailError = true
+            emailErrorText = "Email field is required"
+        }
+        else if(!emailPattern.matches(email)){
+            isEmailError = true
+            emailErrorText = "Invalid email"
+        }
+        else{
+            isEmailError = false
+            emailErrorText = ""
+        }
+
+        if(password.isEmpty()){
+            isPasswordError = true
+            passwordErrorText = "Password field is required"
+        }
+        else if(!passwordPattern.matches(password)){
+            isPasswordError = true
+            passwordErrorText = "Password must have minimum eight characters, at least one letter, one number and one special character"
+        }
+        else{
+            isPasswordError = false
+            passwordErrorText = ""
+        }
+
+        if(!isEmailError && !isPasswordError){
+            email = ""
+            password = ""
+            Toast.makeText(context, "Successfully login", Toast.LENGTH_SHORT).show()
+        }
     }
     val lists = listOf("A", "B", "C")
     Box(modifier = Modifier.fillMaxSize().background(Color(30, 30, 30))){
@@ -68,22 +111,43 @@ fun LoginScreen(){
             )
             Spacer(modifier = Modifier.height(25.dp))
             BuildTextField(
-                value = userName,
-                placeholder = "User name",
-                onValueChange = {userName = it}
+                value = email,
+                placeholder = "Email",
+                onValueChange = {email = it},
+                keyboardType = KeyboardType.Email
             )
-            Spacer(modifier = Modifier.height(15.dp))
+            if (isEmailError) {
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = emailErrorText,
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    style = TextStyle(
+                        color = Color(218, 219, 219)
+                    ),
+                )
+            }
+            Spacer(modifier = Modifier.height(if (isEmailError) 5.dp else 15.dp))
             BuildTextField(
                 value = password,
                 placeholder = "Password",
                 onValueChange = {password = it},
                 keyboardType = KeyboardType.Password
             )
-            Spacer(modifier = Modifier.height(85.dp))
+            if (isPasswordError) {
+                Spacer(modifier = Modifier.height(5.dp))
+                Text(
+                    text = passwordErrorText,
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    style = TextStyle(
+                        color = Color(218, 219, 219)
+                    ),
+                )
+            }
+            Spacer(modifier = Modifier.height(if (isPasswordError) 5.dp else 15.dp))
             BuildRegisterButton(
                 title = "login in",
                 color = Color(167, 105, 106),
-                onClick = {})
+                onClick = checkFormErrors)
             Spacer(modifier = Modifier.height(40.dp))
             Text(text = "or login using social media".uppercase(),
                 style = TextStyle(

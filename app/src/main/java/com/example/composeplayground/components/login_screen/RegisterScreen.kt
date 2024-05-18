@@ -124,6 +124,11 @@ fun RegisterScreen(){
         }
 
         if(!isNameError && !isEmailError && !isPasswordError && !isConfirmPasswordError && !isMobileError){
+            userName = ""
+            email = ""
+            password = ""
+            confirmPassword = ""
+            mobile = ""
             Toast.makeText(context, "Successfully registered", Toast.LENGTH_SHORT).show()
         }
     }
