@@ -1,5 +1,6 @@
 package com.example.composeplayground.components.login_screen
 
+import android.app.Activity
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.RoundedCorner
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
@@ -20,8 +22,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +36,8 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.toUpperCase
@@ -59,6 +65,13 @@ sealed class NavigationItem(val route: String){
 @Composable
 fun AuthRoutes(){
     val navController = rememberNavController()
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = Color.Black.toArgb()
+        }
+    }
     NavHost(navController = navController,
         startDestination = NavigationItem.WelcomeScreen.route) {
         composable(NavigationItem.WelcomeScreen.route){
@@ -79,16 +92,16 @@ fun AuthRoutes(){
 fun WelcomeScreen(navigateTo: (route: String) -> Unit){
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color(30,30,30))){
+        .background(Color(30, 30, 30))){
         TopSection()
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
             .fillMaxHeight(0.6f)
             .fillMaxWidth()
             .background(Color.Transparent),
-            contentAlignment = Alignment.Center) {
-                BottomSection(navigateTo)
-            }
+            contentAlignment = Alignment.BottomCenter) {
+            BottomSection(navigateTo)
+        }
     }
 }
 
@@ -118,7 +131,7 @@ fun BottomSection(navigateTo: (route: String) -> Unit) {
             style = TextStyle(
                 color = Color(218,219,219),
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
+                fontSize = 16.sp,
             )
         )
         Spacer(modifier = Modifier.height(40.dp))
@@ -144,6 +157,7 @@ fun BottomSection(navigateTo: (route: String) -> Unit) {
                 )
             }}
         }
+        Spacer(modifier = Modifier.height(50.dp))
     }
 }
 
@@ -163,7 +177,7 @@ fun BuildButton(
         )
     ) {
         Text(text = title.uppercase(),
-            style = TextStyle(fontSize = 22.sp,
+            style = TextStyle(fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.sp,
                 color = Color(218,219,219),

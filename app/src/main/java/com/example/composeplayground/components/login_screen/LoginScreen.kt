@@ -89,7 +89,7 @@ fun LoginScreen(){
                 style = TextStyle(
                     color = Color(218,219,219),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
+                    fontSize = 16.sp,
                 )
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -115,6 +115,7 @@ fun LoginScreen(){
                     )
                 }}
             }
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
