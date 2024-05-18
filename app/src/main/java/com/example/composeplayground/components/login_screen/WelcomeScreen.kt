@@ -79,7 +79,7 @@ fun AuthRoutes(){
 fun WelcomeScreen(navigateTo: (route: String) -> Unit){
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Black)){
+        .background(Color(30,30,30))){
         TopSection()
         Box(modifier = Modifier
             .align(Alignment.BottomCenter)
@@ -156,7 +156,7 @@ fun BuildButton(
     Button(onClick = onClick,
         modifier = Modifier
             .fillMaxWidth(0.8f)
-            .fillMaxHeight(0.12f),
+            .height(60.dp),
         shape = RectangleShape,
         colors = ButtonDefaults.buttonColors(
             containerColor = color
@@ -165,6 +165,7 @@ fun BuildButton(
         Text(text = title.uppercase(),
             style = TextStyle(fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
+                letterSpacing = 1.sp,
                 color = Color(218,219,219),
             )
         )
